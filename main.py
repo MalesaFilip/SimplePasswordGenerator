@@ -27,8 +27,8 @@ def save_password():
     website = website_entry.get()
     username = username_entry.get()
     password = password_entry.get()
-    """ Do JSON tworzymy nowy słownik, który dla każdego klucza-website, będzie miał sam w sobie kolejny słownik, 
-    z kluczami, email: username i password-password"""
+    """We create a new dictionary for JSON, which for each key-website will have another dictionary in itself,
+     with keys, email: username and password-password"""
     new_data = {
         website: {
             "email": username,
@@ -37,32 +37,20 @@ def save_password():
     }
 
     if len(website_entry.get()) == 0 or len(username_entry.get()) == 0 or len(password_entry.get()) == 0:
-        messagebox.showerror(title="Puste pole.", message="Uzupełnij puste pola.")
+        messagebox.showerror(title="Empty fields.", message="Complete the empty fields."
     else:
-        is_ok = messagebox.askokcancel(title=f"{website}", message=f"Poniżej znajdują się wprowadzone szczegóły:"
-                                                                   f" \nStrona: {website}\nLogin/Nazwa: {username}"
-                                                                   f"\nHasło: {password}\nZapisać?")
+        is_ok = messagebox.askokcancel(title=f"{website}", message=f"Below are the entered details:"
+                                                                   f" \nWebsite: {website}\nLogin/Name: {username}"
+                                                                   f"\nPassword: {password}\nSave it??")
         if is_ok:
-            # with open("list_of_passwords", "a") as passwords:
-            # passwords.write(f"\n{website} | {username} | {password}")
-            # Aby zapisywać plik w formacie data, wystrczy go wywołac jak klasyczny tekstowy
-            # with open("data_json", "w") as passwords:
-                # JSON wymaga również, aby pliki zapisywać za pomocą swoich szczególnych method(wcześniej zaimportować)
-                # Dane będą zapisywane w formie słownika (1.input - słownik, 2. input - plik, który chcemy stworzyć)
-                # Aby takie dane łatwiej było czytać, możemy zastosować parametr wcięcia -wtedy będzie jak słownik
-                # json.dump(new_data, passwords, indent=4)
-
-                # Jak czytać pliki z JSON - load(tu podajemy plik, który chcemy czytać) a w open() zmieniamy na "r"
-                # data = json.load(passwords)
-                # print(data) - typ danych będzie dict
             with open("data_json", "r") as passwords:
-                # Jak aktualizować plik? Po pierwsze trzeba załadować plik
+                # First you need to upload the file
                 data = json.load(passwords)
-                # Gdy plik jest załadowany, aktualizujemy go za pomocą nowych danych - new_data
+                # When the file is loaded, we update it with new data - new_data
                 data.update(new_data)
-            # Otwieramy plik ale w opcji "w"-write, aby dump-wsypać do niego dane, które zaktualizowaliśmy powyżej-update()
+            # We open the file but in the "w"-write option to put into it the data that we updated above-update()
             with open("data_json", "w") as passwords:
-                # Na koniec musimy zapisać ten plik za pomocą dump() - dlatego tu będzie tylko "data"
+                # Finally, we need to save this file with dump() - so there will only be "date" here
                 json.dump(data, passwords, indent=4)
                 website_entry.delete(0, END)
                 password_entry.delete(0, END)
@@ -78,14 +66,13 @@ padlock_img = PhotoImage(file="logo.png")
 canvas.create_image(100, 100, image=padlock_img)
 canvas.grid(column=1, row=0)
 
-# columnspan = - określa, ile kolumn ma zajmować jakaś rzecz( przy użyciu grid())
 
 # ---- Webiste ---- #
 website_label = Label(text="Website:", font=FONT)
 website_label.grid(column=0, row=1)
 website_entry = Entry(width=38)
 website_entry.grid(column=1, row=1, columnspan=2)
-# Sprawia że po odpaleniu okna, pojawia się tam kursor
+# Makes the cursor appear there after launching the window
 website_entry.focus()
 
 # ---- Email/username ---- #
@@ -93,7 +80,7 @@ username_label = Label(text="Email/username:", font=FONT)
 username_label.grid(column=0, row=2)
 username_entry = Entry(width=38)
 username_entry.grid(column=1, row=2, columnspan=2)
-# Ustawia domyślnie wyświetlanie tekstu
+# Sets text display by default
 username_entry.insert(0, "here you can provide your email to start with")
 
 # ---- Password ---- #
